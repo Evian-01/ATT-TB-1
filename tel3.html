@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit to Telegram Bot</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="telegramForm">
+        <input type="text" id="firstName" placeholder="Enter First Name" required><br>
+        <input type="text" id="lastName" placeholder="Enter Last Name" required><br>
+        <input type="text" id="age" placeholder="Enter Age" required><br>
+        <input type="text" id="email" placeholder="Enter Email" required><br>
+        <input type="text" id="phone" placeholder="Enter Phone Number" required><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('telegramForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const age = document.getElementById('age').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            const message = `First Name: ${firstName} <br> Last Name: ${lastName} <br> Age: ${age} <br> Email: ${email} <br> Phone: ${phone}`;
+            const telegramBotToken = '6671344777:AAGOHKgfgbJUUuuBpH-EUQXkCNx57wXVMfw'; // Replace with your Telegram Bot token
+            const chatId = '5322605960'; // Replace with your chat ID
+
+            const sendMessage = (text) => {
+                const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${chatId}&parse_mode=HTML&text=${encodeURIComponent(text)}`;
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        console.log('Message sent successfully');
+                    })
+                    .catch(error => console.error('Error:', error));
+            };
+
+            sendMessage(message);
+
+            // Clear the input fields after submission
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+        });
+    </script>
+</body>
+
+</html>

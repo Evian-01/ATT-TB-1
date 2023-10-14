@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit to Telegram Bot</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="telegramForm">
+        <input type="text" id="input1" placeholder="Enter value 1" required>
+        <input type="text" id="input2" placeholder="Enter value 2" required>
+        <input type="text" id="input3" placeholder="Enter value 3" required>
+        <input type="text" id="input4" placeholder="Enter value 4" required>
+        <input type="text" id="input5" placeholder="Enter value 5" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('telegramForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputs = [
+                document.getElementById('input1').value,
+                document.getElementById('input2').value,
+                document.getElementById('input3').value,
+                document.getElementById('input4').value,
+                document.getElementById('input5').value
+            ];
+            const message = inputs.join('\n');
+            const telegramBotToken = '6671344777:AAGOHKgfgbJUUuuBpH-EUQXkCNx57wXVMfw'; // Replace with your Telegram Bot token
+            const chatId = '5322605960'; // Replace with your chat ID
+
+            const sendMessage = (text) => {
+                const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${chatId}&text=${text}`;
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        console.log('Message sent successfully');
+                    })
+                    .catch(error => console.error('Error:', error));
+            };
+
+            sendMessage(message);
+
+            // Clear the input fields after submission
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById('input' + i).value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>
